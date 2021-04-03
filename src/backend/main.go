@@ -3,11 +3,14 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/teeaaspoon/react-go-login/src/backend/database"
 	"github.com/teeaaspoon/react-go-login/src/backend/routes"
 	"time"
 )
 
 func main() {
+	database.Connect()
+
 	router := gin.Default()
 	corsConfig := cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},

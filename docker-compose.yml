@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  database:
+    image: postgres
+    environment:
+      POSTGRES_USER: goauthuser
+      POSTGRES_PASSWORD: goauthpass
+      POSTGRES_DB: goauth
+    ports:
+      - '5432:5432'
+  server:
+    build:
+      context: ./src/backend
+    environment:
+      POSTGRES_USER: goauthuser
+      POSTGRES_PASSWORD: goauthpass
+      POSTGRES_DB: goauth
+    volumes:
+      - .:/go/src/github.com/teeaaspoon/react-go-auth/
+    ports:
+      - "8000:8000"
+    command: sh -c "./go/src/github.com/teeaaspoon/react-go-auth/src/backend/wait-for.sh database:5432 -- /main"
+    depends_on:
+      - database
