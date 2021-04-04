@@ -22,3 +22,11 @@ services:
     command: sh -c "./go/src/github.com/teeaaspoon/react-go-auth/src/backend/wait-for.sh database:5432 -- /main"
     depends_on:
       - database
+  frontend:
+    build:
+      context: ./src/frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - server

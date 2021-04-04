@@ -13,7 +13,7 @@ func main() {
 
 	router := gin.Default()
 	corsConfig := cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowOrigins:     []string{"http://localhost"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "My-Xsrf-Token"},
 		ExposeHeaders:    []string{"Content-Length", "My-Xsrf-Token"},
