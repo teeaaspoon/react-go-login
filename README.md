@@ -4,6 +4,7 @@ This application is a login form using Gin, React and Postgres.
 Sessions are managed with JWT and CSRF Tokens to prevent security vulnerabilities.
 This allows only authenticated users to see certain pages and request data from the backend.
 
+!["login_page"](https://github.com/teeaaspoon/react-go-login/blob/main/images/login_page.png)
 !["authentication_flow"](https://github.com/teeaaspoon/react-go-login/blob/main/images/authentication_flow.png)
 
 ## Onboarding and Setup
