@@ -9,4 +9,5 @@ import (
 func Setup(router *gin.Engine) {
 	router.POST("/api/login", controller.Login)
 	router.POST("/api/logout", controller.Logout)
+	router.GET("/api/dashboard", controller.Dashboard)
 }

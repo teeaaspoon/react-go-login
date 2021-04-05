@@ -34,7 +34,6 @@ func Login(c *gin.Context) {
 	// Find user
 	var user models.User
 	db.Where("email = ?", data["email"]).First(&user)
-	fmt.Println(user)
 	if user.Id == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
@@ -54,7 +53,7 @@ func Login(c *gin.Context) {
 		"iss": strconv.Itoa(int(user.Id)),
 		"exp": time.Now().Add(time.Hour).Unix(),
 		"data": map[string]string{
-			"xsrfToken": csrfToken,
+			"csrfToken": csrfToken,
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -69,7 +68,7 @@ func Login(c *gin.Context) {
 	// Set custom header with csrfToken
 	c.Header("CSRF-TOKEN", csrfToken)
 
-	c.JSON(http.StatusOK, gin.H{"message": "success"})
+	c.JSON(http.StatusOK, user)
 }
 
 // Logout is a gin HandlerFunc that handles requests to /api/logout
@@ -77,4 +76,41 @@ func Login(c *gin.Context) {
 func Logout(c *gin.Context) {
 	c.SetCookie("jwt", "", -3600, "", "", false, true)
 	c.JSON(http.StatusOK, gin.H{"message": "success"})
+}
+
+// Dashboard is a gin HandlerFunc that handles requests to /api/dashboard
+// LEVEL 1 requirement does not need to implement dashboard
+// I am using this function to mimic a protected route for frontend testing.
+// If JWT and csrfToken are invalid then it will return an error back to the frontend.
+func Dashboard(c *gin.Context) {
+	// Check if the csrfToken is valid
+	csrfToken := c.Request.Header.Get("Csrf-Token")
+	if !xsrftoken.Valid(csrfToken, csrfTokenSecretKey, "", "") {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		return
+	}
+	// Check if the jwt is valid
+	cookie, _ := c.Cookie("jwt")
+	token, err := jwt.Parse(cookie, func(token *jwt.Token) (interface{}, error) {
+		return []byte(jwtSecretKey), nil
+	})
+	if err != nil {
+		fmt.Println("error parsing jwt")
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	// Check if the jwt's csrfToken matches the csrfToken from our header
+	claims := token.Claims.(jwt.MapClaims)
+	data := claims["data"].(map[string]interface{})
+	csrfTokenFromClaims := data["csrfToken"].(string)
+	if csrfTokenFromClaims != csrfToken {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		return
+	}
+
+	// Everything valid, send some data back to the frontend.
+	// Note: This should be some kind of dashboard data sent back but since Level 1
+	// does not require dashboard I will just send a random object back
+	c.JSON(http.StatusOK, struct{ Devices int }{Devices: 50})
 }

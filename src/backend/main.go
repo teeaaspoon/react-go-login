@@ -5,7 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/teeaaspoon/react-go-login/src/backend/database"
 	"github.com/teeaaspoon/react-go-login/src/backend/routes"
-	"time"
 )
 
 func main() {
@@ -18,11 +17,10 @@ func main() {
 	router := gin.Default()
 	corsConfig := cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "My-Xsrf-Token"},
-		ExposeHeaders:    []string{"Content-Length", "My-Xsrf-Token"},
+		AllowMethods:     []string{"GET", "POST"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Csrf-Token"},
+		ExposeHeaders:    []string{"Content-Length", "Csrf-Token"},
 		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
 	}
 	router.Use(cors.New(corsConfig))
 
