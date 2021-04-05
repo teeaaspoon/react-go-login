@@ -37,7 +37,7 @@ const Dashboard = () => {
     }
 
     fetchDashboard();
-  }, []);
+  }, [user, setUser, history]);
 
   return (
     <div>
