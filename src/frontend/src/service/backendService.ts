@@ -3,6 +3,8 @@ import axios, {AxiosResponse} from "axios";
 type BackendService = {
   login: (email: string, password: string) => Promise<AxiosResponse>;
   logout: () => Promise<AxiosResponse>;
+  getDashboard: () => Promise<AxiosResponse>;
+  getUser: () => Promise<AxiosResponse>;
 }
 
 const instance = axios.create({
@@ -26,5 +28,23 @@ export const backendService: BackendService = {
         'Content-Type': 'application/json'
       }
     })
-  }
+  },
+
+  getDashboard: () => {
+    return instance.get("dashboard", {
+      withCredentials: true,
+      headers: {
+        'Csrf-Token': localStorage.getItem("CSRFToken"),
+      }
+    })
+  },
+
+  getUser: () => {
+    return instance.get("user", {
+      withCredentials: true,
+      headers: {
+        'Csrf-Token': localStorage.getItem("CSRFToken"),
+      }
+    })
+  },
 }

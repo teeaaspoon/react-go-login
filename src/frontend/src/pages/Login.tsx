@@ -1,14 +1,14 @@
-import React, {SyntheticEvent, useState} from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {useAuth} from "../contexts/AuthContext";
-import {backendService} from "../service/backendService";
+import { useAuth } from '../contexts/AuthContext';
+import { backendService } from '../service/backendService';
 
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useAuth();
   const [errorMsg, setErrorMsg] = useState('');
+  const [user, setUser] = useAuth();
   const history = useHistory();
 
   const onSubmit = async (e: SyntheticEvent) => {
@@ -24,7 +24,6 @@ const Login = () => {
         pathname: "/",
       });
     } catch (e) {
-      // console.log(Object.keys(e), e.message);
       setErrorMsg(e.response?.data.error);
     }
   }

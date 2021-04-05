@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {useAuth} from "../contexts/AuthContext";
-import {backendService} from "../service/backendService";
+import { useAuth } from '../contexts/AuthContext';
+import { backendService } from '../service/backendService';
 
 const Nav = () => {
   const [user, setUser] = useAuth();
