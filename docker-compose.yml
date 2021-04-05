@@ -17,6 +17,7 @@ services:
       POSTGRES_DB: goauth
     volumes:
       - .:/go/src/github.com/teeaaspoon/react-go-auth/
+      - ./src/backend/ssl:/ssl/
     ports:
       - "8000:8000"
     command: sh -c "./go/src/github.com/teeaaspoon/react-go-auth/src/backend/wait-for.sh database:5432 -- /main"

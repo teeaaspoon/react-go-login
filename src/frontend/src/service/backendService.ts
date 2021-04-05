@@ -8,7 +8,7 @@ type BackendService = {
 }
 
 const instance = axios.create({
-  baseURL: "http://localhost:8000/api/"
+  baseURL: "https://localhost:8000/api/"
 })
 
 export const backendService: BackendService = {
