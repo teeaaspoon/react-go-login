@@ -1,10 +1,15 @@
 import React from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
+import {useAuth} from "../contexts/AuthContext";
+import {backendService} from "../service/backendService";
 
 const Nav = () => {
+  const [user, setUser] = useAuth();
+
   const logout = async () => {
-    const response = await axios.post('http://localhost:8000/api/logout')
-    console.log(response.data);
+    await backendService.logout();
+    localStorage.clear();
+    setUser(null);
   }
 
   return (
@@ -13,8 +18,12 @@ const Nav = () => {
         <div>
           <ul className="navbar-nav me-auto mb-2 mb-md-0">
             <li className="nav-item">
-              <a className="nav-link active" onClick={logout}>Click</a>
+              <Link to="/" className="nav-link active">Dashboard</Link>
             </li>
+            {user !== null &&
+            <li className="nav-item">
+              <Link to="/login" className="nav-link active" onClick={logout}>Logout</Link>
+            </li>}
           </ul>
         </div>
       </div>
