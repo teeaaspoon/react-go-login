@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useAuth();
+  const {user, setUser} = useAuth();
   const [devices, setDevices] = useState(0);
   const history = useHistory();
 

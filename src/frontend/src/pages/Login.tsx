@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const [user, setUser] = useAuth();
+  const { setUser } = useAuth();
   const history = useHistory();
 
   const onSubmit = async (e: SyntheticEvent) => {

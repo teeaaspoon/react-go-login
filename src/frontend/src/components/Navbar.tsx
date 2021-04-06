@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { backendService } from '../service/backendService';
 
 const Nav = () => {
-  const [user, setUser] = useAuth();
+  const {user, setUser} = useAuth();
 
   const logout = async () => {
     await backendService.logout();

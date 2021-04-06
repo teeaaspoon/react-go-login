@@ -4,18 +4,21 @@ type AuthContextType = {
   user: any;
   setUser: React.Dispatch<any>;
 }
-const AuthContext = createContext<AuthContextType | null>(null);
+
+// Please note this is only exported for use in Login.test.tsx,
+// If you need to useContext you should use useAuth() custom hook.
+export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 // useAuth is a custom hook I made that allows any of the children components under AuthProvider to be
-// able to access user and setUser.. see Login.tsx for how it is used.
+// able to access user and setUser.. see Dashboard.tsx for how it is used.
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  return [context?.user, context?.setUser];
+  return {user: context?.user, setUser: context?.setUser as React.Dispatch<any>};
 }
 
 // This is the provider that wraps around children components which need to access user and setUser
 // we can achieve a similar functionality with redux but I wanted to try something new :)
-const AuthProvider = ({children}: any) => {
+export const AuthProvider = ({children}: any) => {
   const [user, setUser] = useState(null);
 
   return (
@@ -25,4 +28,3 @@ const AuthProvider = ({children}: any) => {
   )
 }
 
-export default AuthProvider;
