@@ -55,7 +55,7 @@ const Login = () => {
         </div>
         <input type="submit" value="Login to my Dashboard" className="button block"/>
       </form>
-      <p>{errorMsg}</p>
+      <p id="errorMsg">{errorMsg}</p>
     </div>
   )
 }
